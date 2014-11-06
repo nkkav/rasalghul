@@ -436,13 +436,13 @@ int main(int argc, char **argv)
 
   strcpy(outfile_name,"");
   if (enable_dsc == 1) {
-    strcpy(outfile_name, "dsc");
+    strcpy(outfile_name, "line-dsc");
   } else if (enable_bresenham == 1) {
-		strcpy(outfile_name, "bresenham");
+		strcpy(outfile_name, "line-bresenham");
 	} else if (enable_midpoint == 1) {
-		strcpy(outfile_name, "midpoint");
+		strcpy(outfile_name, "line-midpoint");
   } else if (enable_dda == 1) {
-    strcpy(outfile_name, "dda");
+    strcpy(outfile_name, "line-dda");
 	}
 
   if (enable_pbm == 1) {
