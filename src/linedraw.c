@@ -54,7 +54,6 @@ char outfile_name[96];
 int *image_data;
 unsigned int current_color=0x0;
 //
-int enable_debug=0;
 int enable_pbm=1,enable_pgm=0;
 int enable_dsc=1,enable_bresenham=0,enable_midpoint=0,enable_dda=0;
 int x_dim=XSIZE_DEFAULT, y_dim=YSIZE_DEFAULT;
@@ -319,20 +318,6 @@ void dda(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2)
   }
 #endif
 }
-
-/* gcd:
- * Greatest common divisor of two integers. 
- */
-int gcd(int m, int n)
-{
-  int r; 
-
-  while ((r = m % n) != 0) {
-    m = n;
-    n = r;
-  }
-  return n;
-}     
 
 /* linedraw:
  * Selecting line drawing algorithm.
