@@ -359,6 +359,9 @@ S_001_003:
     ellipsedraw(xm, ym, a, b); 
     a = a + A_STEP;
     b = b + B_STEP;
+    while (a == b && b < t0 && b < t1 && b < t2 && b < t3) {
+      b = rand()%(y_dim/4);
+    }    
     if ((i % NTESTS/4) == 0) {
       SWAP(a, b);
     }
