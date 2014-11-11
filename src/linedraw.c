@@ -231,16 +231,16 @@ void bresenham(int x0, int y0, int x1, int y1)
 void midpoint(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2)
 {
   // 1st octant.
-	int inc_E, inc_NE;
-	int dx, dy, d;
-	unsigned int x, y;
+  int inc_E, inc_NE;
+  int dx, dy, d;
+  unsigned int x, y;
 	
-	dx = x2 - x1; 
+  dx = x2 - x1; 
   dy = y2 - y1; 
-	d = 2*dy - dx;	
-	inc_E = 2 * dy; 
-	inc_NE = 2 * (dy - dx);
-	y = y1;
+  d = 2*dy - dx;	
+  inc_E = 2 * dy; 
+  inc_NE = 2 * (dy - dx);
+  y = y1;
 	
   for (x = x1; x <= x2; x++) {
     // plot(x,y)
@@ -324,15 +324,15 @@ void dda(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2)
  */
 void linedraw(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2)
 {
-	if (enable_dsc == 1) {
+  if (enable_dsc == 1) {
     dsc(x1, y1, x2, y2);
   } else if (enable_bresenham == 1) {
-		bresenham(x1, y1, x2, y2);
-	} else if (enable_midpoint == 1) {
-		midpoint(x1, y1, x2, y2);
+    bresenham(x1, y1, x2, y2);
+  } else if (enable_midpoint == 1) {
+    midpoint(x1, y1, x2, y2);
   } else if (enable_dda == 1) {
     dda(x1, y1, x2, y2);
-	}
+  }
 }
 
 /* print_usage:
@@ -364,7 +364,7 @@ static void print_usage()
  */
 int main(int argc, char **argv)
 {
-	int i,j,k;
+  int i,j,k;
 
   // Read input arguments.
   if (argc < 2) {
@@ -425,7 +425,7 @@ int main(int argc, char **argv)
       fprintf(stderr, "Error: Unknown command-line option: %s.\n", argv[i]);
       exit(1);      
     }
-	}
+  }
 
   // Allocate space for image_data.
   image_data = malloc(x_dim * y_dim * sizeof(int));
@@ -438,12 +438,12 @@ int main(int argc, char **argv)
   if (enable_dsc == 1) {
     strcpy(outfile_name, "line-dsc");
   } else if (enable_bresenham == 1) {
-		strcpy(outfile_name, "line-bresenham");
-	} else if (enable_midpoint == 1) {
-		strcpy(outfile_name, "line-midpoint");
+    strcpy(outfile_name, "line-bresenham");
+  } else if (enable_midpoint == 1) {
+    strcpy(outfile_name, "line-midpoint");
   } else if (enable_dda == 1) {
     strcpy(outfile_name, "line-dda");
-	}
+  }
 
   if (enable_pbm == 1) {
     strcat(outfile_name, ".pbm");
@@ -455,15 +455,13 @@ int main(int argc, char **argv)
   outfile = fopen(outfile_name, "w");
 
   // 0 <= tan(.) <= 1
-  for (k = 0; k <= (x_dim>>1); k += 8)
-	{
-		linedraw(16, 16, (x_dim>>1)+16, k+16);
+  for (k = 0; k <= (x_dim>>1); k += 8) {
+    linedraw(16, 16, (x_dim>>1)+16, k+16);
     fprintf(stderr, "(%d,%d)--(%d,%d)\n", 16, 16, (x_dim>>1)+16, k+16);
   }
   // 1 < tan(.) < +INF.
   if ((enable_bresenham == 1) || (enable_dda == 1))
-  for (k = 0; k <= (x_dim>>1); k += 8)
-  {
+  for (k = 0; k <= (x_dim>>1); k += 8) {
     linedraw(16, 16, k+16, (x_dim>>1)+16);
     fprintf(stderr, "(%d,%d)--(%d,%d)\n", 16, 16, k+16, (x_dim>>1)+16);
   }
@@ -478,8 +476,8 @@ int main(int argc, char **argv)
   }
 
   /* Deallocate space. */
-	free(image_data);
-	fclose(outfile);
+  free(image_data);
+  fclose(outfile);
 
   return 0;
 }
