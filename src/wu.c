@@ -296,10 +296,10 @@ void wu(int x0, int y0, int x1, int y1)
  */
 void linedraw_antialias(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2)
 {
-	if (enable_wu == 1) {
+  if (enable_wu == 1) {
     wu(x1, y1, x2, y2);
   } else {
-		fprintf(stderr, "Error: Line drawing algorithm not yet implemented!\n");
+    fprintf(stderr, "Error: Line drawing algorithm not yet implemented!\n");
     exit(1);
   }
 }
@@ -330,7 +330,7 @@ static void print_usage()
  */
 int main(int argc, char **argv)
 {
-	int i,k;
+  int i,k;
 
   // Read input arguments.
   if (argc < 2) {
@@ -370,7 +370,7 @@ int main(int argc, char **argv)
       fprintf(stderr, "Error: Unknown command-line option: %s.\n", argv[i]);
       exit(1);      
     }
-	}
+  }
 
   // Allocate space for image_data.
   image_data = malloc(x_dim * y_dim * sizeof(float));
@@ -400,14 +400,12 @@ int main(int argc, char **argv)
   } 
 
   // 0 <= tan(.) <= 1
-  for (k = 0; k <= (x_dim>>1); k += 8)
-	{
-		linedraw_antialias(16, 16, (x_dim>>1)+16, k+16);
+  for (k = 0; k <= (x_dim>>1); k += 8) {
+    linedraw_antialias(16, 16, (x_dim>>1)+16, k+16);
     fprintf(stderr, "(%d,%d)--(%d,%d)\n", 16, 16, (x_dim>>1)+16, k+16);
   }
   // 1 < tan(.) < +INF.
-  for (k = 0; k <= (x_dim>>1); k += 8)
-  {
+  for (k = 0; k <= (x_dim>>1); k += 8) {
     linedraw_antialias(16, 16, k+16, (x_dim>>1)+16);
     fprintf(stderr, "(%d,%d)--(%d,%d)\n", 16, 16, k+16, (x_dim>>1)+16);
   }
@@ -443,14 +441,14 @@ int main(int argc, char **argv)
   }
 
   /* Deallocate space. */
-	free(image_data);
+  free(image_data);
   if (enable_pgm == 1) {
     free(temp_image_data);
   }
   if (enable_pfm == 1) {
     free(rgb_image_data);
   }
-	fclose(outfile);
+  fclose(outfile);
 
   return 0;
 }
