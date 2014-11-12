@@ -229,11 +229,11 @@ void relicarium(int xm, int ym, int r)
  */
 void circledraw(int xm, int ym, int r)
 {
-	if (enable_bresenham == 1) {
+  if (enable_bresenham == 1) {
     bresenham(xm, ym, r);
   } else if (enable_relicarium == 1) {
-		relicarium(xm, ym, r);
-	}
+    relicarium(xm, ym, r);
+  }
 }
 
 /* print_usage:
@@ -263,7 +263,7 @@ static void print_usage()
  */
 int main(int argc, char **argv)
 {
-	int i,j,k;
+  int i,j,k;
   int res;
   int xm=0, xm_offset=0, ym=0, r=0, t0, t1, t2, t3;  
 
@@ -310,7 +310,7 @@ int main(int argc, char **argv)
       fprintf(stderr, "Error: Unknown command-line option: %s.\n", argv[i]);
       exit(1);      
     }
-	}
+  }
 
   // Allocate space for image_data.
   image_data = malloc(x_dim * y_dim * sizeof(int));
@@ -323,7 +323,7 @@ int main(int argc, char **argv)
   if (enable_bresenham == 1) {
     strcpy(outfile_name, "circle-bresenham");
   } else if (enable_relicarium == 1) {
-		strcpy(outfile_name, "circle-relicarium");
+    strcpy(outfile_name, "circle-relicarium");
   }
 
   if (enable_pbm == 1) {
@@ -377,8 +377,8 @@ S_004_001:
   }
 
   /* Deallocate space. */
-	free(image_data);
-	fclose(outfile);
+  free(image_data);
+  fclose(outfile);
 
   return 0;
 }
