@@ -7,7 +7,7 @@
  *               - DDA (Direct Differential Analyzer) [Q]
  *  Author     : Nikolaos Kavvadias <nikos@nkavvadias.com>
  *  Copyright  : Nikolaos Kavvadias (C) 2009, 2010, 2011, 2012, 
- *                                      2013, 2014
+ *                                      2013, 2014, 2015, 2016
  *  Website    : http://www.nkavvadias.com                            
  *
  *  This file is part of rasalghul, and is distributed under the terms 
