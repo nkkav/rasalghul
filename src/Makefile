@@ -2,6 +2,7 @@ ifndef CC
 CC = $(CC)
 endif
 CFLAGS=-Wall -O2
+#CFLAGS=-Wall -g -O0
 INCLUDES= -I.
 LFLAGS= -L.
 CC = gcc

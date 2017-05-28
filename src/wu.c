@@ -453,7 +453,6 @@ int main(int argc, char **argv)
     free(rgb_image_data);
   }
   free(outfile_name);
-  fclose(outfile);
 
   return 0;
 }

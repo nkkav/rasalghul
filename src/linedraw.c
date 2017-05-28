@@ -483,7 +483,6 @@ int main(int argc, char **argv)
   /* Deallocate space. */
   free(image_data);
   free(outfile_name);
-  fclose(outfile);
 
   return 0;
 }
