@@ -36,8 +36,8 @@
 #define PFM_RGB          16 /* F */
 #define PFM_GREYSCALE    17 /* f */
 
-/* Swap two ints using a temporary. */
-#define SWAP(x, y)        (x ^= y ^= x ^= y)
+/* Swap two ints without using a temporary. */
+#define SWAP(x, y)        do { x ^= y; y ^= x; x ^= y; } while (0)
 /* Absolute value. */
 #define ABS(x)            ((x) > 0 ? (x) : (-x))
 /* Maximum of two values. */
@@ -54,7 +54,7 @@
 FILE *outfile;
 float *image_data, *rgb_image_data;
 int   *temp_image_data;
-char outfile_name[96];
+char  *outfile_name = NULL;
 /**/
 int enable_pgm=1,enable_pfm=0;
 int enable_wu=1;
@@ -379,7 +379,9 @@ int main(int argc, char **argv)
     image_data[i] = 0x00;
   }
 
-  strcpy(outfile_name,"");
+  outfile_name = malloc((strlen("wu")+
+                   strlen(".pxm")+1) * sizeof(char));
+  
   if (enable_wu == 1) {
     strcpy(outfile_name, "wu");
   } 
@@ -388,6 +390,9 @@ int main(int argc, char **argv)
     strcat(outfile_name, ".pgm");
   } else if (enable_pfm == 1) {
     strcat(outfile_name, ".pfm");
+  } else {
+    fprintf(stderr, "Error: Unspecified line generation algorithm\n");
+    exit (1);
   }
 
   if (enable_pgm == 1) {
@@ -432,11 +437,10 @@ int main(int argc, char **argv)
   } else if (enable_pfm == 1) {
 #ifdef WRITE_GREYSCALE
     write_pfm_file(outfile, image_data, outfile_name,
-      x_dim, y_dim, PFM_GREYSCALE, -1
+      x_dim, y_dim, PFM_GREYSCALE, -1);
 #else
     write_pfm_file(outfile, rgb_image_data, outfile_name,
-      x_dim, y_dim, PFM_RGB, -1
-    );
+      x_dim, y_dim, PFM_RGB, -1);
 #endif
   }
 
@@ -448,6 +452,7 @@ int main(int argc, char **argv)
   if (enable_pfm == 1) {
     free(rgb_image_data);
   }
+  free(outfile_name);
   fclose(outfile);
 
   return 0;

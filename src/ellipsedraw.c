@@ -36,8 +36,8 @@
 #define YSIZE_DEFAULT    256
 #define MAX_COLOR_LEVELS 256
 
-/* Swap two ints using a temporary. */
-#define SWAP(x, y)        (x ^= y ^= x ^= y)
+/* Swap two ints without using a temporary. */
+#define SWAP(x, y)        do { x ^= y; y ^= x; x ^= y; } while (0)
 /* Absolute value. */
 #define ABS(x)            ((x) > 0 ? (x) : (-x))
 /* Maximum of two values. */
@@ -50,7 +50,7 @@
 
 
 FILE *outfile;
-char outfile_name[96];
+char *outfile_name = NULL;
 int *image_data;
 unsigned int current_color=0x0;
 //
@@ -262,9 +262,9 @@ static void print_usage()
  */
 int main(int argc, char **argv)
 {
-  int i,j,k;
-  int res;
+  int i;
   int xm=0, xm_offset=0, ym=0, a=0, b=0, t0, t1, t2, t3;
+  int iseed = 7;
 
   // Read input arguments.
   if (argc < 2) {
@@ -318,12 +318,17 @@ int main(int argc, char **argv)
     image_data[i] = 0x00;
   }
 
-  strcpy(outfile_name,"");
+  outfile_name = malloc((strlen("azellipse-basic")+
+                   strlen(".pxm")+1) * sizeof(char));
+
   if (enable_azbasic == 1) {
     strcpy(outfile_name, "azellipse-basic");
   } 
   else if (enable_azopt == 1) {
     strcpy(outfile_name, "azellipse-opt");
+  } else {
+    fprintf(stderr, "Error: No ellipse generation algorithm specified.\n");
+    exit (1);
   }
 
   if (enable_pbm == 1) {
@@ -334,6 +339,8 @@ int main(int argc, char **argv)
     current_color = MAX_COLOR_LEVELS-1;
   }
   outfile = fopen(outfile_name, "w");
+
+  srand(iseed);
 
 #define NTESTS            16
 #define XM_OFFSET_STEP    64
@@ -389,6 +396,7 @@ S_004_001:
 
   /* Deallocate space. */
   free(image_data);
+  free(outfile_name);
   fclose(outfile);
 
   return 0;

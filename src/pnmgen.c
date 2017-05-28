@@ -103,8 +103,6 @@ unsigned int rand31(void)
   lo += hi >> 15;
   if (lo > 0x7FFFFFFF) {
     lo -= 0x7FFFFFFF;
-  } else {
-    lo = lo;
   }
   val = lo;
   seed[0] = val;
@@ -152,10 +150,11 @@ void generate_random_walk(FILE *f, int _height, int _width, int num_steps)
 {
   int x, y, r;
   int i, p1_addr;
+  unsigned int iseed = 7;
   int *image_data;
   
   image_data = malloc((3 * _height * _width) * sizeof(int));
-    
+   
   for (x = 0; x < _width; x++) {
     for (y = 0; y < _height; y++) {
       p1_addr = x * _height + y;
@@ -166,6 +165,7 @@ void generate_random_walk(FILE *f, int _height, int _width, int num_steps)
   x = _width/2 - 1;
   y = _height/2 - 1;
 
+  srand(iseed);
   i = 0;  
   while (i < num_steps) {
     r = rand() & 0x3; 
@@ -254,9 +254,9 @@ static void print_usage()
  */
 int main(int argc, char **argv)
 {
-  int i,j;
+  int i;
   int x,y;
-  char *binop_str, *fname;
+  char *binop_str = NULL, *fname = NULL;
   FILE *f;
 
   // Read input arguments
@@ -458,7 +458,7 @@ int main(int argc, char **argv)
   if ((f = fopen(fname, "w")) == NULL)
   {
     fprintf(stderr, "Error: Can't create the specified PPM file for export.\n");
-    return 3;
+    exit (1);
   }
  
   fprintf(f, "P3\n");
@@ -574,6 +574,7 @@ int main(int argc, char **argv)
   }
   }
   free(binop_str);
+  free(fname);
   fclose(f);
   return 0;
 }

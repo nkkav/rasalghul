@@ -38,8 +38,8 @@
 #define YSIZE_DEFAULT    256
 #define MAX_COLOR_LEVELS 256
 
-/* Swap two ints using a temporary. */
-#define SWAP(x, y)        (x ^= y ^= x ^= y)
+/* Swap two ints without using a temporary. */
+#define SWAP(x, y)        do { x ^= y; y ^= x; x ^= y; } while (0)
 /* Absolute value. */
 #define ABS(x)            ((x) > 0 ? (x) : (-x))
 /* Maximum of two values. */
@@ -50,7 +50,7 @@
 
 
 FILE *outfile;
-char outfile_name[96];
+char *outfile_name = NULL;
 int *image_data;
 unsigned int current_color=0x0;
 //
@@ -163,9 +163,7 @@ void write_pgm_file(FILE *f, int *img_out, char *img_out_fname,
  */
 void bresenham(int xm, int ym, int r)
 {
-  int x = -r, y = 0, err = 2-2*r, r0 = r; /* bottom left to top right */ 
-  int addr;
-  int temp=0, t;
+  int x = -r, y = 0, err = 2-2*r, r0 = r; /* bottom left to top right */
 
   do {
     // SETPIXEL(xm - x, ym + y);           /*   I. Quadrant +x +y */
@@ -264,8 +262,7 @@ static void print_usage()
  */
 int main(int argc, char **argv)
 {
-  int i,j,k;
-  int res;
+  int i;
   int xm=0, xm_offset=0, ym=0, r=0, t0, t1, t2, t3;  
 
   // Read input arguments.
@@ -320,11 +317,16 @@ int main(int argc, char **argv)
     image_data[i] = 0x00;
   }
 
-  strcpy(outfile_name,"");
+  outfile_name = malloc((strlen("circle-relicarium")+
+                   strlen(".pxm")+1) * sizeof(char));
+
   if (enable_bresenham == 1) {
     strcpy(outfile_name, "circle-bresenham");
   } else if (enable_relicarium == 1) {
     strcpy(outfile_name, "circle-relicarium");
+  } else {
+    fprintf(stderr, "Error: No circle generation algorithm specified.\n");
+    exit (1);
   }
 
   if (enable_pbm == 1) {
@@ -379,6 +381,7 @@ S_004_001:
 
   /* Deallocate space. */
   free(image_data);
+  free(outfile_name);
   fclose(outfile);
 
   return 0;

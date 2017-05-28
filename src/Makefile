@@ -19,7 +19,7 @@ ellipsedraw$(EXE): ellipsedraw.o
 	$(CC) ellipsedraw.o $(LFLAGS) -o ellipsedraw$(EXE)
 
 wu$(EXE): wu.o
-	$(CC) wu.o $(LFLAGS) -o wu$(EXE)
+	$(CC) wu.o $(LFLAGS) -o wu$(EXE) -lm
 
 pnmgen$(EXE): pnmgen.o
 	$(CC) pnmgen.o $(LFLAGS) -o pnmgen$(EXE)
