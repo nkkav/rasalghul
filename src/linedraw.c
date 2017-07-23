@@ -462,13 +462,17 @@ int main(int argc, char **argv)
   // 0 <= tan(.) <= 1
   for (k = 0; k <= (x_dim>>1); k += 8) {
     linedraw(16, 16, (x_dim>>1)+16, k+16);
+#ifdef DIAG  
     fprintf(stderr, "(%d,%d)--(%d,%d)\n", 16, 16, (x_dim>>1)+16, k+16);
+#endif    
   }
   // 1 < tan(.) < +INF.
   if ((enable_bresenham == 1) || (enable_dda == 1))
   for (k = 0; k <= (x_dim>>1); k += 8) {
     linedraw(16, 16, k+16, (x_dim>>1)+16);
+#ifdef DIAG    
     fprintf(stderr, "(%d,%d)--(%d,%d)\n", 16, 16, k+16, (x_dim>>1)+16);
+#endif    
   }
 
   /* Write output file. */
